@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090711">
+<title>FREESTYLE — Sensi Lab</title>
+<style>
+:root{--bg:#090711;--panel:#12101d;--panel2:#1b1528;--purple:#9b5cff;--pink:#e15bff;--cyan:#70e8ff;--muted:#a99dbb;--line:#302340;--white:#fbf8ff}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -15%,#51217a 0,transparent 38%),radial-gradient(ellipse at 100% 45%,#25134b 0,transparent 35%),var(--bg);color:var(--white);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button{font:inherit;cursor:pointer}
+.app{width:min(100%,520px);margin:auto;padding:18px 15px 30px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin:4px 0 22px}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-icon{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-size:26px;font-weight:1000;background:linear-gradient(145deg,#ef8aff,#823bff 58%,#4e24a9);box-shadow:0 8px 26px #9b5cff55;border:1px solid #e9c3ff66}
+.brand-name{font-size:21px;line-height:1;font-weight:1000;letter-spacing:2.2px}
+.brand-sub{font-size:9px;letter-spacing:2.6px;color:#cbb2ff;margin-top:6px}
+.live{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:800;letter-spacing:1px;color:#b6ffe0;border:1px solid #275a4a;background:#10241e;padding:8px 10px;border-radius:99px}
+.dot{width:6px;height:6px;border-radius:50%;background:#61f5b3;box-shadow:0 0 9px #61f5b3}
+.hero{position:relative;overflow:hidden;padding:22px 19px 19px;border-radius:25px;border:1px solid #7344a5;background:linear-gradient(135deg,#27123b 0%,#171124 55%,#11101b 100%);box-shadow:0 18px 45px #0006}
+.hero:before{content:"";position:absolute;width:190px;height:190px;right:-85px;top:-85px;border-radius:50%;border:1px solid #c084fc55;box-shadow:0 0 0 18px #a855f70b,0 0 0 38px #a855f708}
+.hero:after{content:"✦";position:absolute;right:26px;top:24px;font-size:34px;color:#e9b7ff88;text-shadow:0 0 22px #d879ff}
+.kicker{font-size:10px;font-weight:900;letter-spacing:2.2px;color:#d9b8ff}
+h1{font-size:31px;line-height:1.04;letter-spacing:-.8px;margin:13px 0 9px;font-weight:1000}
+h1 span{background:linear-gradient(90deg,#fff,#c69aff,#f3a5ff);background-clip:text;-webkit-background-clip:text;color:transparent}
+.intro{max-width:320px;font-size:12px;line-height:1.6;color:#c1b3d2;margin:0}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:19px 0 13px}
+.mode{padding:12px 8px;border:1px solid #40314f;background:#100d18;color:#b9accb;border-radius:13px;font-size:11px;font-weight:900;letter-spacing:.5px;transition:.2s}
+.mode.active{color:#fff;border-color:#bd8cff;background:linear-gradient(135deg,#6936a1,#392054);box-shadow:0 0 0 1px #bd8cff25,inset 0 0 20px #c084fc12}
+.generate{position:relative;width:100%;padding:16px 12px;border:0;border-radius:15px;color:#fff;background:linear-gradient(100deg,#8738e8,#b84be7 55%,#e04fda);font-size:13px;font-weight:1000;letter-spacing:1.5px;box-shadow:0 9px 24px #b34df044,inset 0 1px #ffffff55;transition:transform .15s,filter .15s}
+.generate:active{transform:scale(.985);filter:brightness(1.12)}
+.status{text-align:center;min-height:17px;margin:10px 0 0;font-size:10px;color:#d1bedf}
+.result-head{display:flex;align-items:center;justify-content:space-between;margin:24px 2px 12px}
+.result-title{font-size:15px;font-weight:900;display:flex;align-items:center;gap:8px}
+.result-title .target{color:#d6a3ff;font-size:18px}
+.preset{font-size:9px;letter-spacing:1px;font-weight:900;color:#e6d5ff;background:#241831;border:1px solid #49305e;padding:7px 9px;border-radius:99px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stat{position:relative;overflow:hidden;padding:14px 13px 13px;min-height:112px;border:1px solid var(--line);border-radius:17px;background:linear-gradient(145deg,#1b1627,#100d18);box-shadow:0 8px 20px #0002}
+.stat:after{content:"";position:absolute;right:-25px;top:-28px;width:70px;height:70px;border-radius:50%;background:#a855f70c}
+.stat-top{display:flex;align-items:center;gap:7px}
+.stat-icon{width:25px;height:25px;border-radius:8px;display:grid;place-items:center;background:#302044;color:#d7aaff;font-size:12px;font-weight:900}
+.stat-label{font-size:11px;color:#c5b7d4;font-weight:700}
+.number-line{display:flex;align-items:baseline;gap:5px;margin-top:8px}
+.number{font-size:31px;line-height:1;font-weight:1000;letter-spacing:-1.2px}
+.scale{font-size:10px;color:#887a99}
+.track{height:4px;margin-top:11px;border-radius:99px;background:#30253c;overflow:hidden}
+.fill{height:100%;width:0;background:linear-gradient(90deg,#8b5cf6,#df69ff);border-radius:99px;transition:width .35s ease}
+.footer-card{display:flex;gap:10px;margin-top:15px;padding:13px;border:1px solid #302340;border-radius:16px;background:#100d18}
+.info{flex:0 0 29px;height:29px;display:grid;place-items:center;border-radius:10px;color:#dcb5ff;background:#2d1b40}
+.footer-card strong{font-size:11px}.footer-card p{font-size:10px;line-height:1.55;color:#a99dbb;margin:4px 0 0}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.action{border:1px solid #49315e;border-radius:12px;padding:11px 8px;background:#151020;color:#e6d8f5;font-size:10px;font-weight:900}
+.action:active{background:#38204d}
+.foot{text-align:center;margin:22px 0 0;color:#6f617e;font-size:9px;letter-spacing:2.4px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;transition:.25s;background:#241531;border:1px solid #8e58ba;color:#fff;border-radius:13px;padding:12px 16px;font-size:12px;font-weight:700;box-shadow:0 10px 30px #0009;max-width:90%;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(min-width:420px){.app{padding-top:25px}.hero{padding:25px 22px 20px}}
+</style>
+</head>
+<body>
+<main class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">F</div>
+      <div><div class="brand-name">FREESTYLE</div><div class="brand-sub">SENSI LAB • MINITWO9</div></div>
+    </div>
+    <div class="live"><span class="dot"></span> ONLINE</div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">✦ PAINEL DE SENSIBILIDADE</div>
+    <h1>DOMINE A<br><span>SUA MIRA.</span></h1>
+    <p class="intro">Crie combinações aleatórias para experimentar no Free Fire. Escolha seu estilo e gere uma nova sensi.</p>
+    <div class="modes">
+      <button type="button" class="mode active" id="mobile">📱 &nbsp;MOBILE</button>
+      <button type="button" class="mode" id="mobilado">🎮 &nbsp;MOBILADO</button>
+    </div>
+    <button type="button" class="generate" id="generate">✦ &nbsp; GERAR MINHA SENSI</button>
+    <div class="status" id="status" aria-live="polite">Pronto para gerar • valores de 0 a 200</div>
+  </section>
+
+  <div class="result-head">
+    <div class="result-title"><span class="target">◎</span> SUA CONFIGURAÇÃO</div>
+    <span class="preset" id="modeLabel">MOBILE</span>
+  </div>
+  <section class="grid">
+    <article class="stat"><div class="stat-top"><span class="stat-icon">✧</span><span class="stat-label">Geral</span></div><div class="number-line"><span class="number" id="v0">—</span><span class="scale">/ 200</span></div><div class="track"><div class="fill" id="b0"></div></div></article>
+    <article class="stat"><div class="stat-top"><span class="stat-icon">⊙</span><span class="stat-label">Ponto vermelho</span></div><div class="number-line"><span class="number" id="v1">—</span><span class="scale">/ 200</span></div><div class="track"><div class="fill" id="b1"></div></div></article>
+    <article class="stat"><div class="stat-top"><span class="stat-icon">⌖</span><span class="stat-label">Mira 2x</span></div><div class="number-line"><span class="number" id="v2">—</span><span class="scale">/ 200</span></div><div class="track"><div class="fill" id="b2"></div></div></article>
+    <article class="stat"><div class="stat-top"><span class="stat-icon">⌖</span><span class="stat-label">Mira 4x</span></div><div class="number-line"><span class="number" id="v3">—</span><span class="scale">/ 200</span></div><div class="track"><div class="fill" id="b3"></div></div></article>
+    <article class="stat"><div class="stat-top"><span class="stat-icon">⌁</span><span class="stat-label">Mira AWM</span></div><div class="number-line"><span class="number" id="v4">—</span><span class="scale">/ 200</span></div><div class="track"><div class="fill" id="b4"></div></div></article>
+    <article class="stat"><div class="stat-top"><span class="stat-icon">◉</span><span class="stat-label">Olhadinha</span></div><div class="number-line"><span class="number" id="v5">—</span><span class="scale">/ 200</span></div><div class="track"><div class="fill" id="b5"></div></div></article>
+  </section>
+
+  <aside class="footer-card">
+    <div class="info">✦</div>
+    <div><strong>DICA FREESTYLE</strong><p>Os números são sugestões aleatórias. Teste e ajuste nas configurações do jogo para encontrar o que funciona melhor para você. O painel não altera o jogo automaticamente.</p></div>
+  </aside>
+  <div class="actions">
+    <button type="button" class="action" id="copy">▣ &nbsp; COPIAR SENSI</button>
+    <button type="button" class="action" id="reset">↻ &nbsp; LIMPAR VALORES</button>
+  </div>
+  <footer class="foot">FREESTYLE • FEITO POR MINITWO9</footer>
+</main>
+<div class="toast" id="toast" role="status"></div>
+<script>
+(function(){
+  "use strict";
+  var mode = "mobile";
+  var lastValues = null;
+  var ranges = {
+    mobile: [[130,200],[110,200],[90,190],[80,180],[40,150],[90,200]],
+    mobilado: [[120,200],[100,195],[85,185],[70,175],[35,145],[85,200]]
+  };
+  var labels = ["Geral","Ponto vermelho","Mira 2x","Mira 4x","Mira AWM","Olhadinha"];
+  var $ = function(id){ return document.getElementById(id); };
+  function randomInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+  function showToast(text){
+    var t=$("toast"); t.textContent=text; t.classList.add("show");
+    window.setTimeout(function(){t.classList.remove("show");},1800);
+  }
+  function generate(){
+    var values=[];
+    for(var i=0;i<6;i++){
+      var range=ranges[mode][i];
+      values.push(randomInt(range[0],range[1]));
+    }
+    lastValues=values;
+    values.forEach(function(value,i){
+      $("v"+i).textContent=String(value);
+      $("b"+i).style.width=(value/2)+"%";
+    });
+    $("status").textContent="✓ Sensi gerada! Toque novamente para criar outra.";
+  }
+  function chooseMode(next){
+    mode=next;
+    $("mobile").classList.toggle("active",mode==="mobile");
+    $("mobilado").classList.toggle("active",mode==="mobilado");
+    $("modeLabel").textContent=mode==="mobile"?"MOBILE":"MOBILADO";
+    $("status").textContent="Modo "+(mode==="mobile"?"Mobile":"Mobilado")+" selecionado. Gere sua sensi.";
+  }
+  $("generate").addEventListener("click",generate);
+  $("mobile").addEventListener("click",function(){chooseMode("mobile");});
+  $("mobilado").addEventListener("click",function(){chooseMode("mobilado");});
+  $("reset").addEventListener("click",function(){
+    lastValues=null;
+    for(var i=0;i<6;i++){ $("v"+i).textContent="—"; $("b"+i).style.width="0%"; }
+    $("status").textContent="Valores limpos. Gere uma nova sensi quando quiser.";
+    showToast("Valores limpos.");
+  });
+  $("copy").addEventListener("click",function(){
+    if(!lastValues){showToast("Gere uma sensi primeiro!");return;}
+    var text="FREESTYLE — "+(mode==="mobile"?"MOBILE":"MOBILADO")+"\\n"+labels.map(function(label,i){return label+": "+lastValues[i];}).join("\\n");
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){showToast("Sensi copiada!");}).catch(function(){showToast(text);});
+    }else{showToast(text);}
+  });
+})();
+</script>
+</body>
+</html>
